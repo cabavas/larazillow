@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Listing;
 use Illuminate\Http\Request;
 
 class ListingController extends Controller
@@ -11,7 +12,9 @@ class ListingController extends Controller
      */
     public function index()
     {
-        //
+        return inertia('Listing/Index', [
+            'listings' => Listing::all()
+        ]);
     }
 
     /**
@@ -33,9 +36,11 @@ class ListingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Listing $listing)
     {
-        //
+        return inertia('Listing/Show', [
+            'listing' => $listing
+        ]);
     }
 
     /**
