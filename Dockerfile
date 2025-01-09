@@ -9,7 +9,9 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     zip \
-    unzip
+    unzip \
+    nodejs \
+    npm
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -30,8 +32,10 @@ RUN useradd -u 1000 -ms /bin/bash -g www www
 # Copy existing application directory contents
 COPY . /var/www
 
-# Copy existing application directory permissions
-COPY --chown=www:www . /var/www
-
+# Set correct permissions
+RUN chown -R www:www /var/www
+RUN chmod -R 755 /var/www
+RUN chmod -R 777 /var/www/storage
+    
 # Change current user to www
 USER www
