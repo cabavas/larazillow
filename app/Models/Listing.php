@@ -23,6 +23,11 @@ class Listing extends Model
         'price'
     ];
 
+    protected $sortable = [
+        'price',
+        'created_at'
+    ];
+
     public function owner(): BelongsTo {
         return $this->belongsTo(\App\Models\User::class, 'by_user_id');
     }
@@ -33,6 +38,11 @@ class Listing extends Model
             ->when($filters['beds'] ?? false, fn($query, $beds) => $query->where('beds', $beds))
             ->when($filters['baths'] ?? false, fn($query, $baths) => $query->where('baths', $baths))
             ->when($filters['areaFrom'] ?? false, fn($query, $areaFrom) => $query->where('area', '>=', $areaFrom))
-            ->when($filters['areaTo'] ?? false, fn($query, $areaTo) => $query->where('area', '<=', $areaTo));
+            ->when($filters['areaTo'] ?? false, fn($query, $areaTo) => $query->where('area', '<=', $areaTo))
+            ->when($filters['deleted'] ?? false, fn($query) => $query->withTrashed())
+            ->when($filters['by'] ?? false, fn($query, $value) 
+                => !in_array($value, $this->sortable)
+                    ? $query
+                    : $query->orderBy($value, $filters['order'] ?? 'desc'));
     }
 }
