@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use \App\Models\Listing;
 use Illuminate\Support\Facades\Auth;
 
 class RealtorListingController extends Controller
@@ -10,5 +10,12 @@ class RealtorListingController extends Controller
     public function index() {
         // dd(Auth::user()->listings()->get()->first()->price);
         return inertia('Realtor/Index', ['listings' => Auth::user()->listings]);
+    }
+
+    public function destroy(Listing $listing)
+    {
+        $listing->deleteOrFail();
+        return redirect()->back()
+            ->with('success', 'Listing was deleted!');
     }
 }

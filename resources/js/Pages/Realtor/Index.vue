@@ -8,16 +8,19 @@
             <div class="flex flex-colmd:flex-rowgap-2 md:items-center justify-between">
                 <div>
                     <div class="xl:flex items-center gap-2">
-                        <Price :price=listing.price class="text-2xl font-medium"/>
-                        <ListingSpace :listing="listing"/>
+                        <Price :price=listing.price class="text-2xl font-medium" />
+                        <ListingSpace :listing="listing" />
                     </div>
 
-                    <ListingAddress :listing="listing" class="text-gray-500"/>
+                    <ListingAddress :listing="listing" class="text-gray-500" />
                 </div>
                 <div class="flex items-center gap-1 text-gray-600 dark:test-grey-300">
                     <Link class="btn-outline text-xs font-medium">Preview</Link>
                     <Link class="btn-outline text-xs font-medium">Edit</Link>
-                    <Link class="btn-outline text-xs font-medium">Delete</Link>
+                    <Link class="btn-outline text-xs font-medium"
+                        :href="route('realtor.listing.destroy', { listing: listing.id })" as="button" method="delete">
+                    Delete
+                    </Link>
                 </div>
             </div>
         </Box>
@@ -29,7 +32,7 @@ import Box from '../../Components/UI/Box.vue';
 import Price from '../../Components/Price.vue';
 import ListingSpace from '../../Components/ListingSpace.vue';
 import ListingAddress from '../../Components/ListingAddress.vue';
-import {Link} from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 
 defineProps({ listings: Array })
 </script>
