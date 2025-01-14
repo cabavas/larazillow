@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Listing;
+use Gate;
 use Illuminate\Http\Request;
 
 class ListingController extends Controller
@@ -12,6 +13,7 @@ class ListingController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny', Listing::class);
         return inertia('Listing/Index', [
             'listings' => Listing::all(),
         ]);
@@ -22,6 +24,7 @@ class ListingController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Listing::class);
         return inertia('Listing/Create');
     }
 
@@ -52,6 +55,10 @@ class ListingController extends Controller
      */
     public function show(Listing $listing)
     {
+        // if (Auth::user()->cannot('view', $listing)) {
+        //     abort(403);
+        // }
+        Gate::authorize('view',$listing);
         return inertia('Listing/Show', [
             'listing' => $listing
         ]);
@@ -62,6 +69,7 @@ class ListingController extends Controller
      */
     public function edit(Listing $listing)
     {
+        Gate::authorize('update', $listing);
         return inertia('Listing/Edit', [
             'listing' => $listing
         ]);
