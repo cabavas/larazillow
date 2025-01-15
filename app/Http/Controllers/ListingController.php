@@ -34,6 +34,7 @@ class ListingController extends Controller
         // if (Auth::user()->cannot('view', $listing)) {
         //     abort(403);
         // }
+        $listing->load(['images']);
         Gate::authorize('view',$listing);
         return inertia('Listing/Show', [
             'listing' => $listing
